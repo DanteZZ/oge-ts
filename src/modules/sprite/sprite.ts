@@ -1,4 +1,6 @@
 import { ILoadSprite, ISprite } from "./interfaces";
+import fs from "fs";
+
 export class Sprite implements ISprite {
     name = ""
     src = ""
@@ -18,6 +20,7 @@ export class Sprite implements ISprite {
         this.centerX = centerX || 0;
         this.centerY = centerY || 0;
         this.speed = speed || 0;
+        this.image.src = "data:image/png;base64,"+fs.readFileSync(src, 'base64');
         //const base64 = require(src);
         //this.image.src = base64;
     }

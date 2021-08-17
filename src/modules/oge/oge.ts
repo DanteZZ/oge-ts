@@ -1,8 +1,8 @@
 import { eventEmitter } from "../eventEmmiter/eventEmmiter";
-import { ISprite, ISpriteList } from "../sprite/interfaces";
+import { ISpriteList } from "../sprite/interfaces";
 import { Sprite } from "../sprite/sprite";
 import { IProject } from "./interfaces";
-
+import { projectDir } from "../../configs/fs.conf";
 export class OGE {
 	public buffer:Object = {};
 	public project:IProject;
@@ -36,7 +36,8 @@ export class OGE {
 
 	load():void {
 		for (let sname in this.project.sprites) {
-			this.sprites[sname] = new Sprite(sname,this.project.sprites[sname]);
+			const sprite = this.project.sprites[sname];
+			this.sprites[sname] = new Sprite(sname,{...sprite,src:projectDir+sprite.src});
 		}
 	}
 
