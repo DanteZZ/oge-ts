@@ -20,7 +20,7 @@ class ResourceLoader {
   }
 
   // Load an image url or an array of image urls
-  public loadResources(urlOrArr: string | string[] | null): void {
+  public loadResources(urlOrArr: string | string[] | null = null): void {
     if (!urlOrArr) {
       urlOrArr = this.loadQueue;
     }

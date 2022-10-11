@@ -19,20 +19,26 @@ export class Assets {
   constructor() {
     this.assets = [];
   }
-  create(url: string, name: string | null = null): Asset {
+  public create(url: string, name: string | null = null): Asset {
     const asset = new Asset(url, name);
     this.assets.push(asset);
     return asset;
   }
-  createAssets(assets: iJsonAsset[]): Asset[] {
+  public createAssets(assets: iJsonAsset[]): Asset[] {
     const result: Asset[] = [];
     assets.forEach((asset) => result.push(this.create(asset.url, asset.name)));
     return result;
   }
-  get(name: string): Asset | null {
+  public get(name: string): Asset | null {
     return this.assets.find((asset) => asset.name === name) || null;
   }
-  getByUrl(url: string): Asset | null {
+  public getByUrl(url: string): Asset | null {
     return this.assets.find((asset) => asset.url === url) || null;
+  }
+  public loadAssets() {
+    return new Promise((res, rej) => {
+      resourceLoader.onReady(res);
+      resourceLoader.loadResources();
+    });
   }
 }

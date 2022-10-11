@@ -7,18 +7,17 @@ export default class Graphic {
 
   constructor(rootElement: HTMLElement) {
     this.rootElement = rootElement;
-    this.initEventEmitter();
+    this.isUpdateFrame();
   }
 
-  private initEventEmitter() {
-    eventEmitter.on("beforeDraw", () => {
-      this.clear();
-    });
-    eventEmitter.on("afterDraw", () => {
-      this.restore();
-    });
+  private isUpdateFrame() {
+    this.clear();
+    eventEmitter.emit("beforeRender");
+    eventEmitter.emit("render");
+    eventEmitter.emit("afterRender");
+    this.restore();
     window.requestAnimationFrame(() => {
-      eventEmitter.emit("updateFrame");
+      this.isUpdateFrame();
     });
   }
 
@@ -26,7 +25,11 @@ export default class Graphic {
     return this.canvasList?.find((item) => item.name === name) || null;
   }
 
-  public createCanvas(name: string): iCanvasItem | null {
+  public createCanvas(
+    name: string,
+    width: number,
+    height: number
+  ): iCanvasItem | null {
     if (!this.getCanvas(name)) {
       const canvasElement = document.createElement("canvas");
       canvasElement.className = "_oge_canvas";
@@ -37,7 +40,10 @@ export default class Graphic {
         offsetX: 0,
         offsetY: 0,
       };
+      canvas.element.width = width;
+      canvas.element.height = height;
       this.rootElement.appendChild(canvas.element);
+      this.canvasList.push(canvas);
       return canvas;
     } else {
       return null;

@@ -4,11 +4,9 @@ type tEventList = {
 
 export class EventEmitter {
   private events: tEventList = {};
-  private context: Window | null = null;
 
-  constructor(context: Window = window) {
+  constructor() {
     this.events = {};
-    this.context = context;
   }
   on(event: string, listener: Function): Function {
     if (typeof this.events[event] !== "object") {
@@ -25,17 +23,17 @@ export class EventEmitter {
       }
     }
   }
-  emit(event: string, ...args: any[]): void {
+  emit(event: string, args: any[] | null = null): void {
     if (typeof this.events[event] === "object") {
-      this.events[event].forEach((listener: Function) =>
-        listener.apply(this.context, args)
-      );
+      this.events[event].forEach((listener: Function) => {
+        listener.call(args);
+      });
     }
   }
   once(event: string, listener: Function): void {
     const remove = this.on(event, (...args: any) => {
       remove();
-      listener.apply(this.context, args);
+      listener.call(args);
     });
   }
 }
