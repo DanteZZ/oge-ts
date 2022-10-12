@@ -9,14 +9,15 @@ const runApp = async () => {
       image: wall.getResource(),
       x: 0,
       y: 0,
-      dWidth: 600,
-      dHeight: 400,
       sWidth: 600,
       sHeight: 400,
+      dWidth: 600,
+      dHeight: 400,
       offsetX: 0,
       offsetY: 0,
     })
   );
+  app.run();
 };
 
 runApp();

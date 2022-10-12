@@ -4,21 +4,32 @@ import eventEmitter from "./eventEmitter";
 export default class Graphic {
   private canvasList: iCanvasItem[] = [];
   private rootElement: HTMLElement;
+  private isRender: Boolean = false;
 
   constructor(rootElement: HTMLElement) {
     this.rootElement = rootElement;
-    this.isUpdateFrame();
   }
 
-  private isUpdateFrame() {
-    this.clear();
-    eventEmitter.emit("beforeRender");
-    eventEmitter.emit("render");
-    eventEmitter.emit("afterRender");
-    this.restore();
-    window.requestAnimationFrame(() => {
-      this.isUpdateFrame();
-    });
+  private updateFrame(): void {
+    if (this.isRender) {
+      this.clear();
+      eventEmitter.emit("beforeRender");
+      eventEmitter.emit("render");
+      eventEmitter.emit("afterRender");
+      this.restore();
+      window.requestAnimationFrame(() => {
+        this.updateFrame();
+      });
+    }
+  }
+
+  public stopRender(): void {
+    this.isRender = false;
+  }
+
+  public playRender(): void {
+    this.isRender = true;
+    this.updateFrame();
   }
 
   public getCanvas(name: string): iCanvasItem | null {
