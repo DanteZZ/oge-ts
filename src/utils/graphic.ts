@@ -2,7 +2,7 @@ import { iCanvasItem, iImageInfo } from "../interfaces/graphic";
 import eventEmitter from "./eventEmitter";
 
 export default class Graphic {
-  private canvasList: iCanvasItem[] = [];
+  private canvasList: Canvas[] = [];
   private rootElement: HTMLElement;
   private isRender: Boolean = false;
 
@@ -32,7 +32,7 @@ export default class Graphic {
     this.updateFrame();
   }
 
-  public getCanvas(name: string): iCanvasItem | null {
+  public getCanvas(name: string): Canvas | null {
     return this.canvasList?.find((item) => item.name === name) || null;
   }
 
@@ -40,20 +40,9 @@ export default class Graphic {
     name: string,
     width: number,
     height: number
-  ): iCanvasItem | null {
+  ): Canvas | null {
     if (!this.getCanvas(name)) {
-      const canvasElement = document.createElement("canvas");
-      canvasElement.className = "_oge_canvas";
-      const canvas: iCanvasItem = {
-        name,
-        element: canvasElement,
-        ctx: canvasElement.getContext("2d"),
-        offsetX: 0,
-        offsetY: 0,
-      };
-      canvas.element.width = width;
-      canvas.element.height = height;
-      this.rootElement.appendChild(canvas.element);
+      const canvas = new Canvas(this.rootElement, name, width, height);
       this.canvasList.push(canvas);
       return canvas;
     } else {
@@ -112,7 +101,7 @@ export default class Graphic {
     }
   }
 
-  public destroyCanvas(name: string | iCanvasItem): void {
+  public destroyCanvas(name: string | Canvas): void {
     const canvas = typeof name === "string" ? this.getCanvas(name) : name;
     if (canvas) {
       canvas.element.remove();
@@ -127,19 +116,52 @@ export default class Graphic {
   }
 
   public drawImage(info: iImageInfo): void {
-    let canvas = this.getCanvas(info.canvas);
-    if (canvas && canvas.ctx) {
-      const ctx = canvas.ctx;
+    if (info.canvas) {
+      let canvas =
+        info.canvas instanceof Canvas
+          ? info.canvas
+          : this.getCanvas(info.canvas);
+      canvas?.drawImage(info);
+    }
+  }
+}
+
+export class Canvas implements iCanvasItem {
+  public ctx;
+  public element;
+  public name;
+  public offsetX;
+  public offsetY;
+  constructor(
+    rootElement: HTMLElement,
+    name: string,
+    width: number,
+    height: number
+  ) {
+    const canvasElement = document.createElement("canvas");
+    canvasElement.className = "_oge_canvas";
+    this.name = name;
+    this.element = canvasElement;
+    this.ctx = canvasElement.getContext("2d");
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.element.width = width;
+    this.element.height = height;
+    rootElement.appendChild(this.element);
+  }
+  public drawImage(info: iImageInfo) {
+    const ctx = this.ctx;
+    if (ctx) {
       if (info.rotation) {
         ctx.save();
         ctx.translate(
-          info.x - canvas.offsetX + info.dWidth / 2,
-          info.y - canvas.offsetY + info.dHeight / 2
+          info.x - this.offsetX + info.dWidth / 2,
+          info.y - this.offsetY + info.dHeight / 2
         );
         ctx.rotate((info.rotation * Math.PI) / 180);
         ctx.translate(
-          -(info.x - canvas.offsetX + info.dWidth / 2),
-          -(info.y - canvas.offsetY + info.dHeight / 2)
+          -(info.x - this.offsetX + info.dWidth / 2),
+          -(info.y - this.offsetY + info.dHeight / 2)
         );
       }
 
@@ -161,8 +183,8 @@ export default class Graphic {
         info.sWidth,
         info.sHeight,
 
-        info.x - canvas.offsetX,
-        info.y - canvas.offsetY,
+        info.x - this.offsetX,
+        info.y - this.offsetY,
         info.dWidth,
         info.dHeight
       );

@@ -1,11 +1,14 @@
+import eventEmitter, { EventEmitter } from "./utils/eventEmitter";
 import Graphic from "./utils/graphic";
 import { Assets } from "./utils/assets";
-import eventEmitter, { EventEmitter } from "./utils/eventEmitter";
+import { Sprites } from "./modules/sprite";
 
 export default class OGE {
+  [key: string]: any;
+  private events: EventEmitter;
   private graphic: Graphic;
   private assets: Assets;
-  private events: EventEmitter;
+  private sprites: Sprites;
 
   private fps: number = 0;
   private deltaTime: number = 0;
@@ -14,6 +17,8 @@ export default class OGE {
   constructor(element: HTMLElement) {
     this.graphic = new Graphic(element);
     this.assets = new Assets();
+    this.sprites = new Sprites();
+
     this.events = eventEmitter;
     this.initEventListeners();
   }

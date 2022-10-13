@@ -1,3 +1,5 @@
+import { Canvas } from "../utils/graphic";
+
 export interface iCanvasItem {
   name: string;
   element: HTMLCanvasElement;
@@ -7,7 +9,7 @@ export interface iCanvasItem {
 }
 
 export interface iImageInfo {
-  canvas: string;
+  canvas?: string | Canvas;
   image: CanvasImageSource;
   x: number;
   y: number;
