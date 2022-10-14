@@ -2,25 +2,34 @@ import eventEmitter, { EventEmitter } from "./utils/eventEmitter";
 import Graphic from "./utils/graphic";
 import { Assets } from "./utils/assets";
 import { Sprites } from "./modules/sprite";
+import { GameObject, InstanceBuffer } from "./modules/gameObject";
 
 export default class OGE {
   [key: string]: any;
-  private events: EventEmitter;
-  private graphic: Graphic;
-  private assets: Assets;
-  private sprites: Sprites;
+  public events: EventEmitter;
+  public graphic: Graphic;
+  public assets: Assets;
+  public sprites: Sprites;
+  public instanceBuffer: InstanceBuffer;
 
-  private fps: number = 0;
-  private deltaTime: number = 0;
-  private lastDeltaTime: number = 0;
+  public fps: number = 0;
+  public deltaTime: number = 0;
+  public lastDeltaTime: number = 0;
 
-  constructor(element: HTMLElement) {
-    this.graphic = new Graphic(element);
-    this.assets = new Assets();
-    this.sprites = new Sprites();
+  public GameObject = GameObject;
 
-    this.events = eventEmitter;
-    this.initEventListeners();
+  constructor(element: HTMLElement | null) {
+    if (element) {
+      this.graphic = new Graphic(element);
+      this.assets = new Assets();
+      this.sprites = new Sprites();
+      this.instanceBuffer = new InstanceBuffer();
+
+      this.events = eventEmitter;
+      this.initEventListeners();
+    } else {
+      throw new Error("Undefined element");
+    }
   }
 
   private initEventListeners(): void {

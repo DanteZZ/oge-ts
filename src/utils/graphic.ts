@@ -36,17 +36,13 @@ export default class Graphic {
     return this.canvasList?.find((item) => item.name === name) || null;
   }
 
-  public createCanvas(
-    name: string,
-    width: number,
-    height: number
-  ): Canvas | null {
+  public createCanvas(name: string, width: number, height: number): Canvas {
     if (!this.getCanvas(name)) {
       const canvas = new Canvas(this.rootElement, name, width, height);
       this.canvasList.push(canvas);
       return canvas;
     } else {
-      return null;
+      throw new Error(`Canvas "${name}" already exist`);
     }
   }
 
