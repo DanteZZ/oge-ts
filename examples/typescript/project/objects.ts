@@ -1,7 +1,7 @@
 import app from "../app";
 import Player from "./objects/player";
 
-export const loadObjects = () => {
+export const initInstances = () => {
   app.instanceBuffer.add(Player);
 };
 

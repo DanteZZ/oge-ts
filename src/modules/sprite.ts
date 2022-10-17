@@ -133,8 +133,8 @@ export class Sprite {
 
 export class SpriteInstance {
   private sprite: Sprite;
-  private frame: number = 0;
-  private speed: number = 1;
+  public frame: number = 0;
+  public speed: number = 1;
   private frameTime: number = Date.now();
 
   constructor(sprite: Sprite) {

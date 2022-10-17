@@ -36,7 +36,11 @@ export default class Graphic {
     return this.canvasList?.find((item) => item.name === name) || null;
   }
 
-  public createCanvas(name: string, width: number, height: number): Canvas {
+  public createCanvas(
+    name: string,
+    width: number = 0,
+    height: number = 0
+  ): Canvas {
     if (!this.getCanvas(name)) {
       const canvas = new Canvas(this.rootElement, name, width, height);
       this.canvasList.push(canvas);
@@ -56,26 +60,10 @@ export default class Graphic {
     this.canvasList.forEach((canvas) => canvas.ctx?.restore());
   }
 
-  public setSize(name: string | iCanvasItem, width: number, height: number) {
+  public setSize(name: string | Canvas, width: number, height: number) {
     const canvas = typeof name === "string" ? this.getCanvas(name) : name;
     if (canvas) {
-      let nw: number, nh: number;
-      if (!width) {
-        nw = window.innerWidth;
-      } else {
-        nw = width;
-      }
-      if (!height) {
-        nh = window.innerHeight;
-      } else {
-        nh = height;
-      }
-      if (canvas.element.width !== nw) {
-        canvas.element.width = nw;
-      }
-      if (canvas.element.height !== nh) {
-        canvas.element.height = nh;
-      }
+      canvas.setSize(width, height);
       return true;
     } else {
       return false;
@@ -89,8 +77,7 @@ export default class Graphic {
   public setOffset(name: string, x: number, y: number) {
     const canvas = this.getCanvas(name);
     if (canvas) {
-      canvas.offsetX = x;
-      canvas.offsetY = y;
+      canvas.setOffset(x, y);
       return true;
     } else {
       return false;
@@ -131,8 +118,8 @@ export class Canvas implements iCanvasItem {
   constructor(
     rootElement: HTMLElement,
     name: string,
-    width: number,
-    height: number
+    width?: number,
+    height?: number
   ) {
     const canvasElement = document.createElement("canvas");
     canvasElement.className = "_oge_canvas";
@@ -141,8 +128,7 @@ export class Canvas implements iCanvasItem {
     this.ctx = canvasElement.getContext("2d");
     this.offsetX = 0;
     this.offsetY = 0;
-    this.element.width = width;
-    this.element.height = height;
+    this.setSize(width, height);
     rootElement.appendChild(this.element);
   }
   public drawImage(info: iImageInfo) {
@@ -195,6 +181,31 @@ export class Canvas implements iCanvasItem {
         ctx.restore();
         ctx.filter = "";
       }
+    }
+  }
+
+  public setOffset(x: number, y: number) {
+    this.offsetX = x;
+    this.offsetY = y;
+  }
+
+  public setSize(width: number = 0, height: number = 0) {
+    let nw: number, nh: number;
+    if (!width) {
+      nw = window.innerWidth;
+    } else {
+      nw = width;
+    }
+    if (!height) {
+      nh = window.innerHeight;
+    } else {
+      nh = height;
+    }
+    if (this.element.width !== nw) {
+      this.element.width = nw;
+    }
+    if (this.element.height !== nh) {
+      this.element.height = nh;
     }
   }
 }

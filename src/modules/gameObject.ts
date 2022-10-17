@@ -21,6 +21,8 @@ export abstract class GameObject {
     this?.buffer?.destroy(this);
   }
 
+  public onDestroy(): void {}
+
   public getBuffer(): InstanceBuffer {
     if (this.buffer) {
       return this.buffer;
@@ -95,5 +97,10 @@ export class InstanceBuffer {
 
   public destroy(instance: GameObject) {
     this.instances = this.instances.filter((inst) => inst !== instance);
+  }
+
+  public destroyAll() {
+    this.instances.forEach((inst) => inst.onDestroy());
+    this.instances = [];
   }
 }

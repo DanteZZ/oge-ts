@@ -1,8 +1,10 @@
 import eventEmitter, { EventEmitter } from "./utils/eventEmitter";
 import Graphic from "./utils/graphic";
+import Input, { InputBuffer } from "./utils/input";
 import { Assets } from "./utils/assets";
 import { Sprites } from "./modules/sprite";
 import { GameObject, InstanceBuffer } from "./modules/gameObject";
+import { SceneBuffer } from "./modules/scene";
 
 export default class OGE {
   [key: string]: any;
@@ -11,6 +13,8 @@ export default class OGE {
   public assets: Assets;
   public sprites: Sprites;
   public instanceBuffer: InstanceBuffer;
+  public sceneBuffer: SceneBuffer;
+  public input: InputBuffer;
 
   public fps: number = 0;
   public deltaTime: number = 0;
@@ -24,8 +28,10 @@ export default class OGE {
       this.assets = new Assets();
       this.sprites = new Sprites();
       this.instanceBuffer = new InstanceBuffer();
+      this.sceneBuffer = new SceneBuffer(this);
 
       this.events = eventEmitter;
+      this.input = Input;
       this.initEventListeners();
     } else {
       throw new Error("Undefined element");

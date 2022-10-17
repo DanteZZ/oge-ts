@@ -1,15 +1,21 @@
 import app from "./app";
+import "./project/sprites";
+
 import { defaultLayer } from "./project/layers";
 import { loadAssets } from "./project/assets";
-import "./project/sprites";
-import { loadObjects } from "./project/objects";
+import { loadScenes } from "./project/scenes";
+import DefaultScene from "./project/scenes/default";
 
 const initApp = async () => {
   await loadAssets();
-  loadObjects();
+  loadScenes();
+
   app.instanceBuffer.setCanvas(defaultLayer);
-  console.log(app);
+  app.sceneBuffer.setCanvas(defaultLayer).setScene(DefaultScene).initScene();
+
   app.run();
+
+  console.log(app);
 };
 
 initApp();
