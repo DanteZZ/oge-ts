@@ -1,44 +1,6 @@
 import eventEmitter from "../utils/eventEmitter";
-import { Canvas } from "../utils/graphic";
-import { SpriteInstance } from "./sprite";
-
-export abstract class GameObject {
-  public name: string | null = null;
-  public x: number = 0;
-  public y: number = 0;
-  public sprite: SpriteInstance | null = null;
-  private buffer?: InstanceBuffer;
-
-  public update(): void {}
-
-  public draw(canvas?: Canvas): void {
-    if (canvas && this.sprite instanceof SpriteInstance) {
-      this.sprite.draw(canvas, this.x, this.y);
-    }
-  }
-
-  public destroy(): void {
-    this?.buffer?.destroy(this);
-  }
-
-  public onDestroy(): void {}
-
-  public getBuffer(): InstanceBuffer {
-    if (this.buffer) {
-      return this.buffer;
-    } else {
-      throw new Error("Empty buffer");
-    }
-  }
-
-  public _setName(name: string): void {
-    this.name = name;
-  }
-
-  public _setBuffer(buffer: InstanceBuffer): void {
-    this.buffer = buffer;
-  }
-}
+import { Canvas } from "../shared/Canvas";
+import { GameObject } from "../shared/GameObject";
 
 export class InstanceBuffer {
   private instances: GameObject[];
@@ -77,13 +39,15 @@ export class InstanceBuffer {
   }
 
   private draw(): void {
-    this.instances.forEach((instance) => {
-      try {
-        instance?.draw(this.canvas);
-      } catch (e) {
-        console.error("Can't draw", instance);
-      }
-    });
+    this.instances
+      .sort((a, b) => a.depth - b.depth)
+      .forEach((instance) => {
+        try {
+          instance?.draw(this.canvas);
+        } catch (e) {
+          console.error("Can't draw", instance);
+        }
+      });
   }
 
   public add(instance: GameObject): GameObject {
@@ -91,6 +55,15 @@ export class InstanceBuffer {
     instance._setBuffer(this);
     return instance;
   }
+
+  public addInstances(instances: GameObject[]): GameObject[] {
+    instances.forEach((instance) => {
+      this.instances.push(instance);
+      instance._setBuffer(this);
+    });
+    return instances;
+  }
+
   public get(name: string): GameObject | null {
     return this.instances.find((instance) => instance.name === name) || null;
   }

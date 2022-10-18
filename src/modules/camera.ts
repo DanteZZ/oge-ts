@@ -1,6 +1,7 @@
-import { Canvas } from "../utils/graphic";
-import { GameObject } from "./gameObject";
+import { Canvas } from "../shared/Canvas";
 import { Scene } from "./scene";
+
+import { GameObject } from "../shared/GameObject";
 
 export class Camera {
   public name: string | null = null;

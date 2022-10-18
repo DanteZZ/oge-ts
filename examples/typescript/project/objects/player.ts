@@ -1,4 +1,4 @@
-import { GameObject } from "../../../../src/modules/gameObject";
+import { GameObject } from "../../../../src";
 import { sExample } from "../sprites";
 // import DVDMovement from "../scripts/dvd_movement";
 import movement from "../scripts/movement";

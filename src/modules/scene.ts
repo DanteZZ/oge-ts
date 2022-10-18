@@ -1,6 +1,6 @@
 import OGE from "..";
 import eventEmitter from "../utils/eventEmitter";
-import { Canvas } from "../utils/graphic";
+import { Canvas } from "../shared/Canvas";
 import { Camera } from "./camera";
 
 export abstract class Scene {
@@ -23,7 +23,7 @@ export abstract class Scene {
 
   public init(): void {}
   public update(): void {}
-  public draw(canvas?: Canvas): void {}
+  public draw(canvas: Canvas): void {}
 
   public setCamera(camera: Camera): void {
     this.camera = camera;
@@ -92,8 +92,8 @@ export class SceneBuffer {
   }
 
   private initEventListeners() {
-    eventEmitter.on("afterRender", () => this.update());
-    eventEmitter.on("render", () => this.draw());
+    eventEmitter.on("beforeRender", () => this.update());
+    eventEmitter.on("preRender", () => this.draw());
   }
 
   private update(): void {
@@ -104,8 +104,8 @@ export class SceneBuffer {
   }
 
   private draw(): void {
-    if (this.selected) {
-      this.selected?.draw();
+    if (this.mainCanvas && this.selected) {
+      this.selected?.draw(this.mainCanvas);
     }
   }
 

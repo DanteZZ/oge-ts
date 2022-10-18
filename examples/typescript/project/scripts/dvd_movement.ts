@@ -1,4 +1,4 @@
-import { GameObject } from "../../../../src/modules/gameObject";
+import { GameObject } from "../../../../src";
 
 enum dirs {
   RIGHT,

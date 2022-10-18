@@ -1,4 +1,5 @@
-import { iCanvasItem, iImageInfo } from "../interfaces/graphic";
+import { iImageInfo } from "../interfaces/graphic";
+import { Canvas } from "../shared/Canvas";
 import eventEmitter from "./eventEmitter";
 
 export default class Graphic {
@@ -14,7 +15,9 @@ export default class Graphic {
     if (this.isRender) {
       this.clear();
       eventEmitter.emit("beforeRender");
+      eventEmitter.emit("preRender");
       eventEmitter.emit("render");
+      eventEmitter.emit("postRender");
       eventEmitter.emit("afterRender");
       this.restore();
       window.requestAnimationFrame(() => {
@@ -98,114 +101,13 @@ export default class Graphic {
     this.canvasList.forEach((canvas) => this.destroyCanvas(canvas));
   }
 
-  public drawImage(info: iImageInfo): void {
+  public drawAsset(info: iImageInfo): void {
     if (info.canvas) {
       let canvas =
         info.canvas instanceof Canvas
           ? info.canvas
           : this.getCanvas(info.canvas);
-      canvas?.drawImage(info);
-    }
-  }
-}
-
-export class Canvas implements iCanvasItem {
-  public ctx;
-  public element;
-  public name;
-  public offsetX;
-  public offsetY;
-  constructor(
-    rootElement: HTMLElement,
-    name: string,
-    width?: number,
-    height?: number
-  ) {
-    const canvasElement = document.createElement("canvas");
-    canvasElement.className = "_oge_canvas";
-    this.name = name;
-    this.element = canvasElement;
-    this.ctx = canvasElement.getContext("2d");
-    this.offsetX = 0;
-    this.offsetY = 0;
-    this.setSize(width, height);
-    rootElement.appendChild(this.element);
-  }
-  public drawImage(info: iImageInfo) {
-    const ctx = this.ctx;
-    if (ctx) {
-      if (info.rotation) {
-        ctx.save();
-        ctx.translate(
-          info.x - this.offsetX + info.dWidth / 2,
-          info.y - this.offsetY + info.dHeight / 2
-        );
-        ctx.rotate((info.rotation * Math.PI) / 180);
-        ctx.translate(
-          -(info.x - this.offsetX + info.dWidth / 2),
-          -(info.y - this.offsetY + info.dHeight / 2)
-        );
-      }
-
-      if (info.filter) {
-        ctx.save();
-        ctx.filter = info.filter;
-      }
-
-      if (info.opacity !== 1) {
-        ctx.save();
-        ctx.globalAlpha = info.opacity || 1;
-      }
-
-      ctx.drawImage(
-        info.image,
-
-        info.offsetX,
-        info.offsetY,
-        info.sWidth,
-        info.sHeight,
-
-        info.x - this.offsetX,
-        info.y - this.offsetY,
-        info.dWidth,
-        info.dHeight
-      );
-      if (info.rotation) {
-        ctx.restore();
-      }
-      if (info.opacity !== 1) {
-        ctx.restore();
-        ctx.globalAlpha = 1;
-      }
-      if (info.filter) {
-        ctx.restore();
-        ctx.filter = "";
-      }
-    }
-  }
-
-  public setOffset(x: number, y: number) {
-    this.offsetX = x;
-    this.offsetY = y;
-  }
-
-  public setSize(width: number = 0, height: number = 0) {
-    let nw: number, nh: number;
-    if (!width) {
-      nw = window.innerWidth;
-    } else {
-      nw = width;
-    }
-    if (!height) {
-      nh = window.innerHeight;
-    } else {
-      nh = height;
-    }
-    if (this.element.width !== nw) {
-      this.element.width = nw;
-    }
-    if (this.element.height !== nh) {
-      this.element.height = nh;
+      canvas?.drawAsset(info);
     }
   }
 }

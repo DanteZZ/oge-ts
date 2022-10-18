@@ -1,5 +1,4 @@
-import { GameObject } from "../../../../src/modules/gameObject";
-import Input from "../../../../src/utils/input";
+import { GameObject, Input } from "../../../../src";
 
 export default (obj: GameObject) => {
   if (Input.onKeyHold(87)) {
