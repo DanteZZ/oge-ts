@@ -13,7 +13,7 @@
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
     "release:major": "standard-version --release-as major",
-    "release:push": "git push --follow-tags origin dev"
+    "release:push": "git push --follow-tags origin dev && npm publish"
   },
   "devDependencies": {
     "file-loader": "^6.2.0",
