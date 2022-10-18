@@ -1,0 +1,27 @@
+{
+  "name": "oge-ts",
+  "version": "0.1.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "bundle": "webpack --mode production",
+    "bundle-example": "webpack --config ./webpack.config.ex.js --mode production",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major",
+    "release:push": "git push --follow-tags origin dev && npm publish"
+  },
+  "devDependencies": {
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "standard-version": "^9.5.0",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.3.5",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
