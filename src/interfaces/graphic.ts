@@ -1,4 +1,4 @@
-import { Asset } from "../utils/assets";
+import { Asset, AssetPattern } from "../utils/assets";
 import { Canvas } from "../shared/Canvas";
 
 export interface iCanvasItem {
@@ -23,4 +23,24 @@ export interface iImageInfo {
   rotation?: number;
   filter?: string;
   opacity?: number;
+}
+
+export interface iRectInfo {
+  canvas?: string | Canvas;
+  fillStyle?: string | AssetPattern;
+  strokeOnly?: Boolean;
+  stroked?: Boolean;
+  strokeStyle?: string | AssetPattern;
+  fixed?: Boolean;
+}
+
+export interface iTextInfo {
+  font?: string;
+  canvas?: string | Canvas;
+  textAlign?: CanvasTextAlign;
+  fillStyle?: string | AssetPattern;
+  strokeOnly?: Boolean;
+  stroked?: Boolean;
+  strokeStyle?: string | AssetPattern;
+  fixed?: Boolean;
 }

@@ -2,11 +2,15 @@ import OGE from "..";
 import eventEmitter from "../utils/eventEmitter";
 import { Canvas } from "../shared/Canvas";
 import { Camera } from "./camera";
+import { InstanceBuffer } from "./instance";
+
+const nullInstanceBuffer: InstanceBuffer = new InstanceBuffer();
 
 export abstract class Scene {
   public name: string | null = null;
   public width: number = 0;
   public height: number = 0;
+  public instances: InstanceBuffer = nullInstanceBuffer;
   private buffer?: SceneBuffer;
   private camera?: Camera;
 
@@ -41,12 +45,28 @@ export abstract class Scene {
     }
   }
 
+  public getCanvas(): Canvas {
+    return this.getBuffer().getCanvas();
+  }
+
+  public getInstanceBuffer(): InstanceBuffer {
+    if (this.instances) {
+      return this.instances;
+    } else {
+      throw new Error("Empty buffer");
+    }
+  }
+
   public _setName(name: string): void {
     this.name = name;
   }
 
   public _setBuffer(buffer: SceneBuffer): void {
     this.buffer = buffer;
+  }
+
+  public _setInstanceBuffer(buffer: InstanceBuffer): void {
+    this.instances = buffer;
   }
 }
 
@@ -58,12 +78,13 @@ export class SceneBuffer {
 
   constructor(context: OGE, selected?: Scene, canvas?: Canvas) {
     this.scenes = [];
+    this.mainCanvas = canvas;
+    this.context = context;
     if (selected) {
       this.add(selected);
       this.selected = selected;
     }
-    this.mainCanvas = canvas;
-    this.context = context;
+
     this.initEventListeners();
   }
 
@@ -112,6 +133,7 @@ export class SceneBuffer {
   public add(scene: Scene): Scene {
     this.scenes.push(scene);
     scene._setBuffer(this);
+    scene._setInstanceBuffer(this.context.instanceBuffer);
     return scene;
   }
 

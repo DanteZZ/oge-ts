@@ -1,4 +1,5 @@
 import { iJsonAsset } from "../interfaces/assets";
+import { Canvas } from "../shared/Canvas";
 import resourceLoader from "./resourceLoader";
 
 export class Asset {
@@ -40,5 +41,34 @@ export class Assets {
       resourceLoader.onReady(res);
       resourceLoader.loadResources();
     });
+  }
+}
+
+export class AssetPattern {
+  private pattern: CanvasPattern | null = null;
+  private canvas: Canvas;
+  private asset: Asset;
+  private type: string = "repeat";
+
+  constructor(canvas: Canvas, asset: Asset, type: string = "repeat") {
+    this.canvas = canvas;
+    this.asset = asset;
+    this.type = type;
+  }
+
+  public getPattern(): CanvasPattern {
+    const res = this.asset.getResource();
+    if (res instanceof HTMLImageElement) {
+      if (!this.pattern) {
+        this.pattern = this.canvas.ctx.createPattern(res, this.type);
+      }
+      if (this.pattern) {
+        return this.pattern;
+      } else {
+        throw new Error("Pattern is not created");
+      }
+    } else {
+      throw new Error("Asset is not loaded");
+    }
   }
 }

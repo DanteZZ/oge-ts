@@ -10,7 +10,7 @@ import Input from "./utils/input";
 import { Camera } from "./modules/camera";
 import { Scene } from "./modules/scene";
 import { Sprite } from "./modules/sprite";
-import { Asset } from "./utils/assets";
+import { Asset, AssetPattern } from "./utils/assets";
 
 export {
   // Shared
@@ -24,6 +24,7 @@ export {
   Scene,
   Sprite,
   Asset,
+  AssetPattern,
 };
 
 export default OGE;
