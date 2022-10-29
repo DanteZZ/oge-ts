@@ -3,10 +3,8 @@
     "lib": ["dom", "es6"],
     "moduleResolution": "node",
     "target": "es6",
-    "module": "CommonJS",
-    "declaration": false,
-    "outDir": "./dist",
-    "strict": true,
+    "module": "ESNext",
+    "outDir": "./dist/_esm",
 
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,

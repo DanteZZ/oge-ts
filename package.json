@@ -1,14 +1,19 @@
 {
   "name": "oge-ts",
   "version": "0.1.2",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "browser": "./dist/oge.min.js",
+  "types": "./dist/_types/index.d.ts",
+  "require": "./dist/_cjs/index.js",
+  "import": "./dist/_esm/index.js",
+  "main": "./dist/_esm/index.js",
+  "default": "./dist/_esm/index.js",
   "license": "MIT",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "bundle": "webpack --mode production",
+    "build": "rm -rf dist && npm run build:cjs && npm run build:esm && npm run build:types && npm run build:browser",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc-esm -p tsconfig.esm.json",
+    "build:types": "tsc -p tsconfig.types.json",
+    "build:browser": "webpack --mode production",
     "bundle-example": "webpack --config ./webpack.config.ex.js --mode production",
     "pre-release": "npm run bundle && npm run bundle-example",
     "release:minor": "standard-version --release-as minor",
@@ -16,7 +21,17 @@
     "release:major": "standard-version --release-as major",
     "release:push": "git push --follow-tags origin main && npm publish"
   },
+  "author": "DanteZZ",
+  "bugs": {
+    "url": "https://github.com/DanteZZ/oge-ts/issues"
+  },
+  "homepage": "https://github.com/DanteZZ/oge-ts#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanteZZ/oge-ts.git"
+  },
   "devDependencies": {
+    "@digitak/tsc-esm": "^3.1.4",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "standard-version": "^9.5.0",
