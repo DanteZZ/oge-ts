@@ -1,15 +1,15 @@
 # OGE - open-source game framework
 
-<center>
+<div align="center">
 	<img src="https://badge.fury.io/js/oge-ts.svg"/>
 	<img src="https://img.shields.io/npm/collaborators/oge-ts"/>
-</center>
-<center>
+</div>
+<div align="center">
 	<img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"/>
 	<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/>
 	<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"/>
 	<img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white"/>
-</center>
+</div>
 
 Open-source lite game framework inspired by GameMaker and Unity. Written in TypeScript.
 
