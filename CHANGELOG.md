@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/DanteZZ/oge-ts/compare/v0.1.2...v0.1.3) (2022-10-29)
+
+
+### Features
+
+* New building logic ([de5cea5](https://github.com/DanteZZ/oge-ts/commit/de5cea5c293a0ca3e84e7208efe78e9996bbee2c))
+
 ### [0.1.2](https://github.com/DanteZZ/oge-ts/compare/v0.1.1...v0.1.2) (2022-10-19)
 
 
