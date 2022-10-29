@@ -28,7 +28,7 @@ yarn add oge-ts
 With browser:
 
 ```html
-<script src="https://raw.githubusercontent.com/DanteZZ/oge-ts/main/dist/oge.min.js"></script>
+<script src="https://raw.githubusercontent.com/DanteZZ/oge-ts/main/dist/_browser/oge.min.js"></script>
 ```
 
 ## Examples
