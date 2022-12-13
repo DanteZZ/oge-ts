@@ -1,6 +1,6 @@
 {
   "name": "oge-ts",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "types": "./dist/_types/index.d.ts",
   "require": "./dist/_cjs/index.js",
   "import": "./dist/_esm/index.js",
@@ -15,7 +15,7 @@
     "build:types": "tsc -p tsconfig.types.json",
     "build:browser": "webpack --mode production",
     "bundle-example": "webpack --config ./webpack.config.ex.cjs --mode production",
-    "pre-release": "npm run bundle && npm run bundle-example",
+    "pre-release": "npm run build && npm run bundle-example",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
     "release:major": "standard-version --release-as major",
