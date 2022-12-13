@@ -9,6 +9,7 @@ export declare class Canvas implements iCanvasItem {
     constructor(rootElement: HTMLElement, name: string, width?: number, height?: number);
     drawAsset(info: iImageInfo): void;
     drawRect(x: number, y: number, width: number, height: number, info?: iRectInfo): void;
+    drawArc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, info?: iRectInfo): void;
     drawText(text: string, x: number, y: number, info?: iTextInfo): void;
     setOffset(x: number, y: number): void;
     setSize(width?: number, height?: number): void;

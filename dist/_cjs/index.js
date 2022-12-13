@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AssetPattern = exports.Asset = exports.Sprite = exports.Scene = exports.Camera = exports.Input = exports.SpriteInstance = exports.Canvas = exports.GameObject = void 0;
+exports.eColliderType = exports.AssetPattern = exports.Asset = exports.Sprite = exports.Scene = exports.Camera = exports.Input = exports.Collider = exports.SpriteInstance = exports.Canvas = exports.GameObject = void 0;
 const oge_1 = require("./oge");
 // Shared
 const GameObject_1 = require("./shared/GameObject");
@@ -9,6 +9,9 @@ const Canvas_1 = require("./shared/Canvas");
 Object.defineProperty(exports, "Canvas", { enumerable: true, get: function () { return Canvas_1.Canvas; } });
 const SpriteInstance_1 = require("./shared/SpriteInstance");
 Object.defineProperty(exports, "SpriteInstance", { enumerable: true, get: function () { return SpriteInstance_1.SpriteInstance; } });
+const Collider_1 = require("./shared/Collider");
+Object.defineProperty(exports, "Collider", { enumerable: true, get: function () { return Collider_1.Collider; } });
+Object.defineProperty(exports, "eColliderType", { enumerable: true, get: function () { return Collider_1.eColliderType; } });
 // Modules
 const input_1 = require("./utils/input");
 exports.Input = input_1.default;

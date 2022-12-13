@@ -5,6 +5,7 @@ import { Assets } from "./utils/assets";
 import { Sprites } from "./modules/sprite";
 import { InstanceBuffer } from "./modules/instance";
 import { SceneBuffer } from "./modules/scene";
+import { ColliderBuffer } from "./modules/collider";
 export default class OGE {
     [key: string]: any;
     events: EventEmitter;
@@ -12,6 +13,7 @@ export default class OGE {
     assets: Assets;
     sprites: Sprites;
     instanceBuffer: InstanceBuffer;
+    colliderBuffer: ColliderBuffer;
     sceneBuffer: SceneBuffer;
     input: InputBuffer;
     fps: number;

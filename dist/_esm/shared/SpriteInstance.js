@@ -27,8 +27,18 @@ export class SpriteInstance {
             }
         }
     }
+    getInfo() {
+        return this.sprite.getInfo();
+    }
     draw(canvas, x, y, width, height, rotation, opacity, filter) {
-        this.sprite.draw(canvas, x, y, this.frame, rotation, opacity, filter, width, height);
+        this.sprite.draw(canvas, x, y, {
+            frame: this.frame,
+            rotation,
+            opacity,
+            filter,
+            width,
+            height,
+        });
     }
 }
 //# sourceMappingURL=SpriteInstance.js.map

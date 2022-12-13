@@ -1,6 +1,6 @@
 import eventEmitter from "../utils/eventEmitter";
 import { Canvas } from "./Canvas";
-import { Sprite } from "../modules/sprite";
+import { iSpriteInfo, Sprite } from "../modules/sprite";
 
 export class SpriteInstance {
   private sprite: Sprite;
@@ -36,7 +36,7 @@ export class SpriteInstance {
     }
   }
 
-  public getInfo() {
+  public getInfo(): iSpriteInfo {
     return this.sprite.getInfo();
   }
 

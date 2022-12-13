@@ -2,7 +2,7 @@ import { Asset } from "../utils/assets";
 import { Canvas } from "../shared/Canvas";
 import { SpriteInstance } from "../shared/SpriteInstance";
 
-interface iSpriteInfo {
+export interface iSpriteInfo {
   speed: number;
   width: number;
   height: number;
@@ -17,7 +17,7 @@ interface iSpriteSize {
   height: number;
 }
 
-interface iSpriteDrawOptions {
+export interface iSpriteDrawOptions {
   frame?: number;
   rotation?: number;
   opacity?: number;

@@ -5,6 +5,7 @@ import { Assets } from "./utils/assets.js";
 import { Sprites } from "./modules/sprite.js";
 import { InstanceBuffer } from "./modules/instance.js";
 import { SceneBuffer } from "./modules/scene.js";
+import { ColliderBuffer } from "./modules/collider.js";
 export default class OGE {
     constructor(element) {
         this.fps = 0;
@@ -14,7 +15,8 @@ export default class OGE {
             this.graphic = new Graphic(element);
             this.assets = new Assets();
             this.sprites = new Sprites();
-            this.instanceBuffer = new InstanceBuffer();
+            this.instanceBuffer = new InstanceBuffer(this);
+            this.colliderBuffer = new ColliderBuffer();
             this.sceneBuffer = new SceneBuffer(this);
             this.events = eventEmitter;
             this.input = Input;

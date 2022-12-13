@@ -91,6 +91,43 @@ class Canvas {
             }
         }
     }
+    drawArc(x, y, radius, startAngle = 0, endAngle = 2 * Math.PI, info = { strokeOnly: false, stroked: false, fixed: false }) {
+        const ctx = this.ctx;
+        if (ctx) {
+            let lastStrokeStyle = "";
+            let lastFillStyle = "";
+            const fillStyle = info.fillStyle instanceof assets_1.AssetPattern
+                ? info.fillStyle.getPattern()
+                : info.fillStyle;
+            const strokeStyle = info.strokeStyle instanceof assets_1.AssetPattern
+                ? info.strokeStyle.getPattern()
+                : info.strokeStyle;
+            if (strokeStyle) {
+                lastStrokeStyle = ctx.strokeStyle;
+                ctx.strokeStyle = strokeStyle;
+            }
+            if (fillStyle) {
+                lastFillStyle = ctx.fillStyle;
+                ctx.fillStyle = fillStyle;
+            }
+            const offsetX = info.fixed ? 0 : this.offsetX;
+            const offsetY = info.fixed ? 0 : this.offsetY;
+            ctx.beginPath();
+            ctx.arc(x - offsetX, y - offsetY, radius, startAngle, endAngle);
+            if (!info.strokeOnly) {
+                ctx.fill();
+            }
+            if (info.stroked || info.strokeOnly) {
+                ctx.stroke();
+            }
+            if (info.strokeStyle) {
+                ctx.strokeStyle = lastStrokeStyle;
+            }
+            if (info.fillStyle) {
+                ctx.fillStyle = lastFillStyle;
+            }
+        }
+    }
     drawText(text, x, y, info = { strokeOnly: false, stroked: false, fixed: false }) {
         const ctx = this.ctx;
         if (ctx) {

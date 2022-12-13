@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InstanceBuffer = void 0;
 const eventEmitter_1 = require("../utils/eventEmitter");
 class InstanceBuffer {
-    constructor(canvas) {
+    constructor(app, canvas) {
         this.instances = [];
         this.canvas = canvas;
+        this.app = app;
         this.initEventListeners();
     }
     setCanvas(canvas) {
@@ -24,6 +25,7 @@ class InstanceBuffer {
         eventEmitter_1.default.on("render", () => this.draw());
     }
     update() {
+        eventEmitter_1.default.emit("beforeUpdate");
         this.instances.forEach((instance) => {
             try {
                 instance === null || instance === void 0 ? void 0 : instance.update();
@@ -32,6 +34,7 @@ class InstanceBuffer {
                 console.error("Can't update", instance);
             }
         });
+        eventEmitter_1.default.emit("afterUpdate");
     }
     draw() {
         this.instances
@@ -54,11 +57,15 @@ class InstanceBuffer {
         instances.forEach((instance) => {
             this.instances.push(instance);
             instance._setBuffer(this);
+            instance.create();
         });
         return instances;
     }
     get(name) {
         return this.instances.find((instance) => instance.name === name) || null;
+    }
+    getAll(name) {
+        return this.instances.filter((instance) => instance.name === name) || null;
     }
     destroy(instance) {
         this.instances = this.instances.filter((inst) => inst !== instance);

@@ -7,6 +7,7 @@ const assets_1 = require("./utils/assets");
 const sprite_1 = require("./modules/sprite");
 const instance_1 = require("./modules/instance");
 const scene_1 = require("./modules/scene");
+const collider_1 = require("./modules/collider");
 class OGE {
     constructor(element) {
         this.fps = 0;
@@ -16,7 +17,8 @@ class OGE {
             this.graphic = new graphic_1.default(element);
             this.assets = new assets_1.Assets();
             this.sprites = new sprite_1.Sprites();
-            this.instanceBuffer = new instance_1.InstanceBuffer();
+            this.instanceBuffer = new instance_1.InstanceBuffer(this);
+            this.colliderBuffer = new collider_1.ColliderBuffer();
             this.sceneBuffer = new scene_1.SceneBuffer(this);
             this.events = eventEmitter_1.default;
             this.input = input_1.default;
