@@ -8,7 +8,7 @@ class PlayerObject extends GameObject {
   // dvd = new DVDMovement(this);
   public create(): void {
     this.createCollider({
-      radius: 20,
+      radius: 30,
       type: eColliderType.circle,
     });
   }
