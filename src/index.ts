@@ -4,6 +4,7 @@ import OGE from "./oge";
 import { GameObject } from "./shared/GameObject";
 import { Canvas } from "./shared/Canvas";
 import { SpriteInstance } from "./shared/SpriteInstance";
+import { Collider, eColliderType } from "./shared/Collider";
 
 // Modules
 import Input from "./utils/input";
@@ -17,6 +18,7 @@ export {
   GameObject,
   Canvas,
   SpriteInstance,
+  Collider,
 
   // Modules
   Input,
@@ -25,6 +27,9 @@ export {
   Sprite,
   Asset,
   AssetPattern,
+
+  // Helpers
+  eColliderType,
 };
 
 export default OGE;

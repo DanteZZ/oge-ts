@@ -9,6 +9,7 @@ interface iSpriteInfo {
   frames: number;
   centerX: number;
   centerY: number;
+  [key: string]: any;
 }
 
 interface iSpriteSize {
@@ -16,7 +17,17 @@ interface iSpriteSize {
   height: number;
 }
 
+interface iSpriteDrawOptions {
+  frame?: number;
+  rotation?: number;
+  opacity?: number;
+  filter?: string;
+  width?: number;
+  height?: number;
+}
+
 export class Sprite {
+  [key: string]: any;
   readonly name: string | null = null;
   private asset: Asset;
   private width: number = 0;
@@ -29,21 +40,14 @@ export class Sprite {
   constructor(
     asset: Asset,
     name: string | null = null,
-    frames: number = 1,
-    centerX: number = 0,
-    centerY: number = 0,
-    width: number = 0,
-    height: number = 0,
-    speed: number = 1
+    opts?: Partial<iSpriteInfo>
   ) {
     this.asset = asset;
-    this.speed = speed;
     this.name = name;
-    this.width = width;
-    this.height = height;
-    this.frames = frames;
-    this.centerX = centerX;
-    this.centerY = centerY;
+    opts &&
+      Object.entries(opts).forEach(([key, value]) => {
+        this[key] = value;
+      });
   }
 
   public createInstance(): SpriteInstance {
@@ -99,27 +103,22 @@ export class Sprite {
     canvas: Canvas,
     x: number,
     y: number,
-    frame: number | null = null,
-    rotation?: number,
-    opacity?: number,
-    filter?: string,
-    width?: number,
-    height?: number
+    opts?: iSpriteDrawOptions
   ): void {
     const inf = this.getInfo();
     canvas.drawAsset({
       asset: this.asset,
-      x,
-      y,
-      dWidth: width || inf.width,
-      dHeight: height || inf.height,
+      x: x - this.centerX,
+      y: y - this.centerY,
+      dWidth: opts?.width || inf.width,
+      dHeight: opts?.height || inf.height,
       sWidth: inf.width,
       sHeight: inf.height,
-      offsetX: (frame || 0) * inf.width,
+      offsetX: (opts?.frame || 0) * inf.width,
       offsetY: 0,
-      rotation: rotation,
-      filter: filter,
-      opacity: opacity,
+      rotation: opts?.rotation,
+      filter: opts?.filter,
+      opacity: opts?.opacity,
     });
   }
 }
@@ -132,23 +131,9 @@ export class Sprites {
   public create(
     asset: Asset,
     name: string | null = null,
-    frames: number = 1,
-    centerX: number = 0,
-    centerY: number = 0,
-    width: number = 0,
-    height: number = 0,
-    speed: number = 1
+    opts?: Partial<iSpriteInfo>
   ): Sprite {
-    const sprite = new Sprite(
-      asset,
-      name,
-      frames,
-      centerX,
-      centerY,
-      width,
-      height,
-      speed
-    );
+    const sprite = new Sprite(asset, name, opts);
     this.sprites.push(sprite);
     return sprite;
   }

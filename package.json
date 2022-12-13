@@ -14,7 +14,7 @@
     "build:esm": "tsc-esm -p tsconfig.esm.json",
     "build:types": "tsc -p tsconfig.types.json",
     "build:browser": "webpack --mode production",
-    "bundle-example": "webpack --config ./webpack.config.ex.js --mode production",
+    "bundle-example": "webpack --config ./webpack.config.ex.cjs --mode production",
     "pre-release": "npm run bundle && npm run bundle-example",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",

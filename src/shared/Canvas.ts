@@ -139,6 +139,58 @@ export class Canvas implements iCanvasItem {
     }
   }
 
+  public drawArc(
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number = 0,
+    endAngle: number = 2 * Math.PI,
+    info: iRectInfo = { strokeOnly: false, stroked: false, fixed: false }
+  ) {
+    const ctx = this.ctx;
+    if (ctx) {
+      let lastStrokeStyle: string | CanvasGradient | CanvasPattern = "";
+      let lastFillStyle: string | CanvasGradient | CanvasPattern = "";
+
+      const fillStyle =
+        info.fillStyle instanceof AssetPattern
+          ? info.fillStyle.getPattern()
+          : info.fillStyle;
+
+      const strokeStyle =
+        info.strokeStyle instanceof AssetPattern
+          ? info.strokeStyle.getPattern()
+          : info.strokeStyle;
+
+      if (strokeStyle) {
+        lastStrokeStyle = ctx.strokeStyle;
+        ctx.strokeStyle = strokeStyle;
+      }
+      if (fillStyle) {
+        lastFillStyle = ctx.fillStyle;
+        ctx.fillStyle = fillStyle;
+      }
+
+      const offsetX = info.fixed ? 0 : this.offsetX;
+      const offsetY = info.fixed ? 0 : this.offsetY;
+      ctx.beginPath();
+      ctx.arc(x - offsetX, y - offsetY, radius, startAngle, endAngle);
+      if (!info.strokeOnly) {
+        ctx.fill();
+      }
+      if (info.stroked || info.strokeOnly) {
+        ctx.stroke();
+      }
+
+      if (info.strokeStyle) {
+        ctx.strokeStyle = lastStrokeStyle;
+      }
+      if (info.fillStyle) {
+        ctx.fillStyle = lastFillStyle;
+      }
+    }
+  }
+
   public drawText(
     text: string,
     x: number,

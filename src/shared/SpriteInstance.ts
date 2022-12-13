@@ -36,6 +36,10 @@ export class SpriteInstance {
     }
   }
 
+  public getInfo() {
+    return this.sprite.getInfo();
+  }
+
   public draw(
     canvas: Canvas,
     x: number,
@@ -46,16 +50,13 @@ export class SpriteInstance {
     opacity?: number,
     filter?: string
   ): void {
-    this.sprite.draw(
-      canvas,
-      x,
-      y,
-      this.frame,
+    this.sprite.draw(canvas, x, y, {
+      frame: this.frame,
       rotation,
       opacity,
       filter,
       width,
-      height
-    );
+      height,
+    });
   }
 }

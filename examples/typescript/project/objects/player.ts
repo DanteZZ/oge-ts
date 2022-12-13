@@ -1,16 +1,27 @@
-import { GameObject } from "../../../../src";
+import { Canvas, Collider, eColliderType, GameObject } from "../../../../src";
 import { sExample } from "../sprites";
 // import DVDMovement from "../scripts/dvd_movement";
 import movement from "../scripts/movement";
 class PlayerObject extends GameObject {
   sprite = sExample?.createInstance();
+  name = "player";
   // dvd = new DVDMovement(this);
-  constructor() {
-    super();
+  public create(): void {
+    this.createCollider({
+      radius: 20,
+      type: eColliderType.circle,
+    });
   }
   update() {
     // this.dvd.updateMovement();
     movement(this);
+  }
+  public draw(canvas?: Canvas): void {
+    this.defaultDraw(canvas);
+    this.collider?.draw(
+      canvas,
+      this.isCollide("wall") ? "rgba(255,0,0,.5)" : undefined
+    );
   }
 }
 

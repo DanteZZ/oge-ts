@@ -1,13 +1,16 @@
 import eventEmitter from "../utils/eventEmitter";
 import { Canvas } from "../shared/Canvas";
 import { GameObject } from "../shared/GameObject";
+import OGE from "../oge";
 
 export class InstanceBuffer {
-  private instances: GameObject[];
+  public instances: GameObject[];
   private canvas?: Canvas;
-  constructor(canvas?: Canvas) {
+  public app?: OGE;
+  constructor(app?: OGE, canvas?: Canvas) {
     this.instances = [];
     this.canvas = canvas;
+    this.app = app;
     this.initEventListeners();
   }
 
@@ -29,6 +32,7 @@ export class InstanceBuffer {
   }
 
   private update(): void {
+    eventEmitter.emit("beforeUpdate");
     this.instances.forEach((instance) => {
       try {
         instance?.update();
@@ -36,6 +40,7 @@ export class InstanceBuffer {
         console.error("Can't update", instance);
       }
     });
+    eventEmitter.emit("afterUpdate");
   }
 
   private draw(): void {
@@ -60,12 +65,17 @@ export class InstanceBuffer {
     instances.forEach((instance) => {
       this.instances.push(instance);
       instance._setBuffer(this);
+      instance.create();
     });
     return instances;
   }
 
   public get(name: string): GameObject | null {
     return this.instances.find((instance) => instance.name === name) || null;
+  }
+
+  public getAll(name: string): GameObject[] | null {
+    return this.instances.filter((instance) => instance.name === name) || null;
   }
 
   public destroy(instance: GameObject) {

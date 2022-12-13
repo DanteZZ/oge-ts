@@ -11,11 +11,11 @@ class _DefaultScene extends Scene {
   public init(): void {
     this.instances.addInstances([
       Player,
-      // new Wall({
-      //   x: 100,
-      //   y: 100,
-      //   depth: -1,
-      // }),
+      new Wall({
+        x: 100,
+        y: 100,
+        depth: -1,
+      }),
     ]);
 
     this.mainCamera = new Camera(this);
