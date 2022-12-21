@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/DanteZZ/oge-ts/compare/v0.1.4...v0.1.5) (2022-12-21)
+
+
+### Bug Fixes
+
+* Sprite size changing ([5a6e40d](https://github.com/DanteZZ/oge-ts/commit/5a6e40d45754a85c75d753afc9e9b918402fbbdc))
+
 ### [0.1.4](https://github.com/DanteZZ/oge-ts/compare/v0.1.3...v0.1.4) (2022-12-13)
 
 ### [0.1.3](https://github.com/DanteZZ/oge-ts/compare/v0.1.2...v0.1.3) (2022-10-29)

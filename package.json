@@ -1,6 +1,6 @@
 {
   "name": "oge-ts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "types": "./dist/_types/index.d.ts",
   "require": "./dist/_cjs/index.js",
   "import": "./dist/_esm/index.js",
@@ -16,10 +16,13 @@
     "build:browser": "webpack --mode production",
     "bundle-example": "webpack --config ./webpack.config.ex.cjs --mode production",
     "pre-release": "npm run build && npm run bundle-example",
-    "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major",
-    "release:push": "git add -A && git commit -m \"last update\" && git push --follow-tags origin main && npm publish"
+    "release:push": "git add -A && git commit -m \"last update\" && git push --follow-tags origin main && npm publish",
+    "rollup:patch": "npm run pre-release && npm run release:patch && npm run release:push",
+    "rollup:minor": "npm run pre-release && npm run release:minor && npm run release:push",
+    "rollup:major": "npm run pre-release && npm run release:major && npm run release:push"
   },
   "author": "DanteZZ",
   "bugs": {
