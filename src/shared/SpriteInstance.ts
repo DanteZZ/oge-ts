@@ -1,6 +1,6 @@
 import eventEmitter from "../utils/eventEmitter";
 import { Canvas } from "./Canvas";
-import { iSpriteInfo, Sprite } from "../modules/sprite";
+import { iSpriteDrawOptions, iSpriteInfo, Sprite } from "../modules/sprite";
 
 export class SpriteInstance {
   private sprite: Sprite;
@@ -44,19 +44,11 @@ export class SpriteInstance {
     canvas: Canvas,
     x: number,
     y: number,
-    width?: number,
-    height?: number,
-    rotation?: number,
-    opacity?: number,
-    filter?: string
+    opts: iSpriteDrawOptions = {}
   ): void {
     this.sprite.draw(canvas, x, y, {
       frame: this.frame,
-      rotation,
-      opacity,
-      filter,
-      width,
-      height,
+      ...opts,
     });
   }
 }

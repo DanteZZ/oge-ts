@@ -35,8 +35,8 @@ export class Canvas implements iCanvasItem {
       const imageSource = info.asset.getResource();
 
       if (imageSource instanceof HTMLImageElement) {
-        const sWidth: number = info.dWidth || imageSource.width;
-        const sHeight: number = info.dHeight || imageSource.height;
+        const sWidth: number = info.sWidth || imageSource.width;
+        const sHeight: number = info.sHeight || imageSource.height;
         const dWidth: number = info.dWidth || imageSource.width;
         const dHeight: number = info.dHeight || imageSource.height;
 

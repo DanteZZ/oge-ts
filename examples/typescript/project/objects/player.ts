@@ -17,11 +17,13 @@ class PlayerObject extends GameObject {
     movement(this);
   }
   public draw(canvas?: Canvas): void {
-    this.defaultDraw(canvas);
-    this.collider?.draw(
-      canvas,
-      this.isCollide("wall") ? "rgba(255,0,0,.5)" : undefined
-    );
+    if (canvas) {
+      this.defaultDraw(canvas);
+      this.collider?.draw(
+        canvas,
+        this.isCollide("wall") ? "rgba(255,0,0,.5)" : undefined
+      );
+    }
   }
 }
 
