@@ -23,8 +23,8 @@ class Canvas {
         if (ctx) {
             const imageSource = info.asset.getResource();
             if (imageSource instanceof HTMLImageElement) {
-                const sWidth = info.dWidth || imageSource.width;
-                const sHeight = info.dHeight || imageSource.height;
+                const sWidth = info.sWidth || imageSource.width;
+                const sHeight = info.sHeight || imageSource.height;
                 const dWidth = info.dWidth || imageSource.width;
                 const dHeight = info.dHeight || imageSource.height;
                 if (info.rotation) {
