@@ -32,6 +32,7 @@ export interface iRectInfo {
 }
 export interface iTextInfo {
     font?: string;
+    size?: number;
     canvas?: string | Canvas;
     textAlign?: CanvasTextAlign;
     fillStyle?: string | AssetPattern;

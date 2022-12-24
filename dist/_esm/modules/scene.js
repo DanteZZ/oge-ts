@@ -10,14 +10,14 @@ export class Scene {
     }
     _init(context) {
         context.instanceBuffer.destroyAll();
-        this.init();
+        this.init(context);
     }
     _update(canvas) {
         if (this.camera && canvas) {
             this.camera.update(canvas);
         }
     }
-    init() { }
+    init(context) { }
     update() { }
     draw(canvas) { }
     setCamera(camera) {
@@ -37,6 +37,11 @@ export class Scene {
     }
     getCanvas() {
         return this.getBuffer().getCanvas();
+    }
+    createCanvas(name, width, height) {
+        return this.getBuffer()
+            .getContext()
+            .graphic.createCanvas(name, width, height);
     }
     getInstanceBuffer() {
         if (this.instances) {
@@ -87,6 +92,9 @@ export class SceneBuffer {
         else {
             throw new Error("Empty canvas");
         }
+    }
+    getContext() {
+        return this.context;
     }
     initEventListeners() {
         eventEmitter.on("beforeRender", () => this.update());

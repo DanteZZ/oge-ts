@@ -28,8 +28,8 @@ class Camera {
         }
         canvas.setSize(w, h);
         if (this.trackInstance) {
-            this.x = this.trackInstance.x - Math.ceil(w / 2);
-            this.y = this.trackInstance.y - Math.ceil(h / 2);
+            this.x = this.trackInstance.x - Math.ceil(w / 2 / canvas.scale);
+            this.y = this.trackInstance.y - Math.ceil(h / 2 / canvas.scale);
         }
         if (this.x < 0) {
             this.x = 0;
@@ -37,6 +37,8 @@ class Camera {
         if (this.y < 0) {
             this.y = 0;
         }
+        w = Math.ceil(w / canvas.scale);
+        h = Math.ceil(h / canvas.scale);
         if (this.x + w > this.scene.width) {
             this.x = this.scene.width - w;
         }

@@ -11,13 +11,14 @@ export declare abstract class Scene {
     private camera?;
     _init(context: OGE): void;
     _update(canvas?: Canvas): void;
-    init(): void;
+    init(context: OGE): void;
     update(): void;
     draw(canvas: Canvas): void;
     setCamera(camera: Camera): void;
     destroy(): void;
     getBuffer(): SceneBuffer;
     getCanvas(): Canvas;
+    createCanvas(name: string, width?: number, height?: number): Canvas;
     getInstanceBuffer(): InstanceBuffer;
     _setName(name: string): void;
     _setBuffer(buffer: SceneBuffer): void;
@@ -33,6 +34,7 @@ export declare class SceneBuffer {
     setScene(scene: Scene): SceneBuffer;
     setCanvas(canvas: Canvas): SceneBuffer;
     getCanvas(): Canvas;
+    getContext(): OGE;
     private initEventListeners;
     private update;
     private draw;

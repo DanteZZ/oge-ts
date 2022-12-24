@@ -7,6 +7,7 @@ class Graphic {
         this.canvasList = [];
         this.isRender = false;
         this.rootElement = rootElement;
+        rootElement.style.position = "relative";
     }
     updateFrame() {
         if (this.isRender) {
@@ -15,7 +16,9 @@ class Graphic {
             eventEmitter_1.default.emit("preRender");
             eventEmitter_1.default.emit("render");
             eventEmitter_1.default.emit("postRender");
-            eventEmitter_1.default.emit("afterRender");
+            setTimeout(() => {
+                eventEmitter_1.default.emit("afterRender");
+            }, 0);
             this.restore();
             window.requestAnimationFrame(() => {
                 this.updateFrame();

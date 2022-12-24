@@ -4,7 +4,11 @@ exports.Canvas = void 0;
 const assets_1 = require("../utils/assets");
 class Canvas {
     constructor(rootElement, name, width, height) {
+        this.scale = 1;
         const canvasElement = document.createElement("canvas");
+        canvasElement.style.position = "absolute";
+        canvasElement.style.top = "0px";
+        canvasElement.style.left = "0px";
         canvasElement.className = "_oge_canvas";
         const ctx = canvasElement.getContext("2d");
         if (!ctx) {
@@ -29,9 +33,9 @@ class Canvas {
                 const dHeight = info.dHeight || imageSource.height;
                 if (info.rotation) {
                     ctx.save();
-                    ctx.translate(info.x - this.offsetX + dWidth / 2, info.y - this.offsetY + dHeight / 2);
+                    ctx.translate(Math.ceil((info.x - this.offsetX + dWidth / 2) * this.scale), Math.ceil((info.y - this.offsetY + dHeight / 2) * this.scale));
                     ctx.rotate((info.rotation * Math.PI) / 180);
-                    ctx.translate(-(info.x - this.offsetX + dWidth / 2), -(info.y - this.offsetY + dHeight / 2));
+                    ctx.translate(-Math.ceil((info.x - this.offsetX + dWidth / 2) * this.scale), -Math.ceil((info.y - this.offsetY + dHeight / 2) * this.scale));
                 }
                 if (info.filter) {
                     ctx.save();
@@ -41,7 +45,7 @@ class Canvas {
                     ctx.save();
                     ctx.globalAlpha = info.opacity || 1;
                 }
-                ctx.drawImage(imageSource, info.offsetX || 0, info.offsetY || 0, sWidth, sHeight, info.x - (this.offsetX || 0), info.y - (this.offsetY || 0), dWidth, dHeight);
+                ctx.drawImage(imageSource, info.offsetX || 0, info.offsetY || 0, sWidth, sHeight, Math.ceil((info.x - (this.offsetX || 0)) * this.scale), Math.ceil((info.y - (this.offsetY || 0)) * this.scale), Math.ceil(dWidth * this.scale), Math.ceil(dHeight * this.scale));
                 if (info.rotation) {
                     ctx.restore();
                 }
@@ -78,10 +82,10 @@ class Canvas {
             const offsetX = info.fixed ? 0 : this.offsetX;
             const offsetY = info.fixed ? 0 : this.offsetY;
             if (!info.strokeOnly) {
-                ctx.fillRect(x - offsetX, y - offsetY, width, height);
+                ctx.fillRect(Math.ceil((x - offsetX) * this.scale), Math.ceil((y - offsetY) * this.scale), Math.ceil(width * this.scale), Math.ceil(height * this.scale));
             }
             if (info.stroked || info.strokeOnly) {
-                ctx.strokeRect(x - offsetX, y - offsetY, width, height);
+                ctx.strokeRect(Math.ceil((x - offsetX) * this.scale), Math.ceil((y - offsetY) * this.scale), Math.ceil(width * this.scale), Math.ceil(height * this.scale));
             }
             if (info.strokeStyle) {
                 ctx.strokeStyle = lastStrokeStyle;
@@ -113,7 +117,7 @@ class Canvas {
             const offsetX = info.fixed ? 0 : this.offsetX;
             const offsetY = info.fixed ? 0 : this.offsetY;
             ctx.beginPath();
-            ctx.arc(x - offsetX, y - offsetY, radius, startAngle, endAngle);
+            ctx.arc(Math.ceil((x - offsetX) * this.scale), Math.ceil((y - offsetY) * this.scale), Math.ceil(radius * this.scale), startAngle, endAngle);
             if (!info.strokeOnly) {
                 ctx.fill();
             }
@@ -151,7 +155,9 @@ class Canvas {
             }
             if (info.font) {
                 lastFont = ctx.font;
-                ctx.font = info.font;
+                ctx.font = (info === null || info === void 0 ? void 0 : info.size)
+                    ? `${this.scale * info.size}px ${info.font}`
+                    : info.font;
             }
             if (info.textAlign) {
                 lastTextAlign = ctx.textAlign;
@@ -160,10 +166,10 @@ class Canvas {
             const offsetX = info.fixed ? 0 : this.offsetX;
             const offsetY = info.fixed ? 0 : this.offsetY;
             if (!info.strokeOnly) {
-                ctx.fillText(text, x - offsetX, y - offsetY);
+                ctx.fillText(text, Math.ceil(this.scale * (x - offsetX)), Math.ceil(this.scale * (y - offsetY)));
             }
             if (info.stroked || info.strokeOnly) {
-                ctx.strokeText(text, x - offsetX, y - offsetY);
+                ctx.strokeText(text, Math.ceil(this.scale * (x - offsetX)), Math.ceil(this.scale * (y - offsetY)));
             }
             if (info.strokeStyle) {
                 ctx.strokeStyle = lastStrokeStyle;

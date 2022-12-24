@@ -6,6 +6,7 @@ export declare class Canvas implements iCanvasItem {
     ctx: CanvasRenderingContext2D;
     offsetX: number;
     offsetY: number;
+    scale: number;
     constructor(rootElement: HTMLElement, name: string, width?: number, height?: number);
     drawAsset(info: iImageInfo): void;
     drawRect(x: number, y: number, width: number, height: number, info?: iRectInfo): void;
