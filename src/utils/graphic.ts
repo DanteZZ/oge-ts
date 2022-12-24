@@ -9,6 +9,7 @@ export default class Graphic {
 
   constructor(rootElement: HTMLElement) {
     this.rootElement = rootElement;
+    rootElement.style.position = "relative";
   }
 
   private updateFrame(): void {
@@ -18,7 +19,9 @@ export default class Graphic {
       eventEmitter.emit("preRender");
       eventEmitter.emit("render");
       eventEmitter.emit("postRender");
-      eventEmitter.emit("afterRender");
+      setTimeout(() => {
+        eventEmitter.emit("afterRender");
+      }, 0);
       this.restore();
       window.requestAnimationFrame(() => {
         this.updateFrame();

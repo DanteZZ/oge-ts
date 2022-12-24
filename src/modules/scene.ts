@@ -16,7 +16,7 @@ export abstract class Scene {
 
   public _init(context: OGE): void {
     context.instanceBuffer.destroyAll();
-    this.init();
+    this.init(context);
   }
 
   public _update(canvas?: Canvas): void {
@@ -25,7 +25,7 @@ export abstract class Scene {
     }
   }
 
-  public init(): void {}
+  public init(context: OGE): void {}
   public update(): void {}
   public draw(canvas: Canvas): void {}
 
@@ -47,6 +47,11 @@ export abstract class Scene {
 
   public getCanvas(): Canvas {
     return this.getBuffer().getCanvas();
+  }
+  public createCanvas(name: string, width?: number, height?: number): Canvas {
+    return this.getBuffer()
+      .getContext()
+      .graphic.createCanvas(name, width, height);
   }
 
   public getInstanceBuffer(): InstanceBuffer {
@@ -110,6 +115,9 @@ export class SceneBuffer {
     } else {
       throw new Error("Empty canvas");
     }
+  }
+  public getContext(): OGE {
+    return this.context;
   }
 
   private initEventListeners() {

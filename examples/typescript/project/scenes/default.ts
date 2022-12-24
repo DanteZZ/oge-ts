@@ -5,9 +5,10 @@ import Wall from "../objects/wall";
 
 class _DefaultScene extends Scene {
   public width: number = 2000;
-  public height: number = 600;
+  public height: number = 800;
   private mainCamera?: Camera;
   private background?: AssetPattern;
+  private guiLayer?: Canvas;
   public init(): void {
     this.instances.addInstances([
       Player,
@@ -22,18 +23,21 @@ class _DefaultScene extends Scene {
     this.mainCamera.setTrackInstance(Player);
     this.background = new AssetPattern(this.getCanvas(), aWall);
     this.setCamera(this.mainCamera);
+    this.getCanvas().scale = 2;
+    this.guiLayer = this.createCanvas("gui");
   }
 
   public draw(canvas: Canvas): void {
-    canvas.drawRect(600, 0, 600, 600, {
+    canvas.drawRect(600, 100, 600, 600, {
       fillStyle: this.background,
       stroked: true,
     });
-    canvas.drawText("Hello World", 100, 100, {
-      font: "24px serif",
+    this.guiLayer?.drawText("Hello World", 100, 100, {
+      font: "serif",
+      size: 50,
       strokeStyle: this.background,
       fixed: true,
-      strokeOnly: true,
+      strokeOnly: false,
     });
     // canvas.drawAsset({
     //   asset: aWall,

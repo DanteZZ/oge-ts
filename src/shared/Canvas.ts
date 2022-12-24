@@ -8,6 +8,7 @@ export class Canvas implements iCanvasItem {
   public ctx: CanvasRenderingContext2D;
   public offsetX: number;
   public offsetY: number;
+  public scale: number = 1;
   constructor(
     rootElement: HTMLElement,
     name: string,
@@ -15,6 +16,9 @@ export class Canvas implements iCanvasItem {
     height?: number
   ) {
     const canvasElement = document.createElement("canvas");
+    canvasElement.style.position = "absolute";
+    canvasElement.style.top = "0px";
+    canvasElement.style.left = "0px";
     canvasElement.className = "_oge_canvas";
     const ctx = canvasElement.getContext("2d");
     if (!ctx) {
@@ -43,13 +47,13 @@ export class Canvas implements iCanvasItem {
         if (info.rotation) {
           ctx.save();
           ctx.translate(
-            info.x - this.offsetX + dWidth / 2,
-            info.y - this.offsetY + dHeight / 2
+            Math.ceil((info.x - this.offsetX + dWidth / 2) * this.scale),
+            Math.ceil((info.y - this.offsetY + dHeight / 2) * this.scale)
           );
           ctx.rotate((info.rotation * Math.PI) / 180);
           ctx.translate(
-            -(info.x - this.offsetX + dWidth / 2),
-            -(info.y - this.offsetY + dHeight / 2)
+            -Math.ceil((info.x - this.offsetX + dWidth / 2) * this.scale),
+            -Math.ceil((info.y - this.offsetY + dHeight / 2) * this.scale)
           );
         }
 
@@ -69,10 +73,10 @@ export class Canvas implements iCanvasItem {
           info.offsetY || 0,
           sWidth,
           sHeight,
-          info.x - (this.offsetX || 0),
-          info.y - (this.offsetY || 0),
-          dWidth,
-          dHeight
+          Math.ceil((info.x - (this.offsetX || 0)) * this.scale),
+          Math.ceil((info.y - (this.offsetY || 0)) * this.scale),
+          Math.ceil(dWidth * this.scale),
+          Math.ceil(dHeight * this.scale)
         );
         if (info.rotation) {
           ctx.restore();
@@ -124,10 +128,20 @@ export class Canvas implements iCanvasItem {
       const offsetY = info.fixed ? 0 : this.offsetY;
 
       if (!info.strokeOnly) {
-        ctx.fillRect(x - offsetX, y - offsetY, width, height);
+        ctx.fillRect(
+          Math.ceil((x - offsetX) * this.scale),
+          Math.ceil((y - offsetY) * this.scale),
+          Math.ceil(width * this.scale),
+          Math.ceil(height * this.scale)
+        );
       }
       if (info.stroked || info.strokeOnly) {
-        ctx.strokeRect(x - offsetX, y - offsetY, width, height);
+        ctx.strokeRect(
+          Math.ceil((x - offsetX) * this.scale),
+          Math.ceil((y - offsetY) * this.scale),
+          Math.ceil(width * this.scale),
+          Math.ceil(height * this.scale)
+        );
       }
 
       if (info.strokeStyle) {
@@ -174,7 +188,13 @@ export class Canvas implements iCanvasItem {
       const offsetX = info.fixed ? 0 : this.offsetX;
       const offsetY = info.fixed ? 0 : this.offsetY;
       ctx.beginPath();
-      ctx.arc(x - offsetX, y - offsetY, radius, startAngle, endAngle);
+      ctx.arc(
+        Math.ceil((x - offsetX) * this.scale),
+        Math.ceil((y - offsetY) * this.scale),
+        Math.ceil(radius * this.scale),
+        startAngle,
+        endAngle
+      );
       if (!info.strokeOnly) {
         ctx.fill();
       }
@@ -225,7 +245,9 @@ export class Canvas implements iCanvasItem {
 
       if (info.font) {
         lastFont = ctx.font;
-        ctx.font = info.font;
+        ctx.font = info?.size
+          ? `${this.scale * info.size}px ${info.font}`
+          : info.font;
       }
 
       if (info.textAlign) {
@@ -237,10 +259,18 @@ export class Canvas implements iCanvasItem {
       const offsetY = info.fixed ? 0 : this.offsetY;
 
       if (!info.strokeOnly) {
-        ctx.fillText(text, x - offsetX, y - offsetY);
+        ctx.fillText(
+          text,
+          Math.ceil(this.scale * (x - offsetX)),
+          Math.ceil(this.scale * (y - offsetY))
+        );
       }
       if (info.stroked || info.strokeOnly) {
-        ctx.strokeText(text, x - offsetX, y - offsetY);
+        ctx.strokeText(
+          text,
+          Math.ceil(this.scale * (x - offsetX)),
+          Math.ceil(this.scale * (y - offsetY))
+        );
       }
 
       if (info.strokeStyle) {
