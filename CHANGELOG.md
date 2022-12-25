@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/DanteZZ/oge-ts/compare/v0.2.0...v0.2.1) (2022-12-25)
+
+
+### Bug Fixes
+
+* move Camera tracking area ([bd996f4](https://github.com/DanteZZ/oge-ts/commit/bd996f427a6bde1d12e59a7aeb22fc4d090892dd))
+
 ## [0.2.0](https://github.com/DanteZZ/oge-ts/compare/v0.1.5...v0.2.0) (2022-12-24)
 
 
