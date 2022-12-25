@@ -25,8 +25,30 @@ export class Camera {
         }
         canvas.setSize(w, h);
         if (this.trackInstance) {
-            this.x = this.trackInstance.x - Math.ceil(w / 2 / canvas.scale);
-            this.y = this.trackInstance.y - Math.ceil(h / 2 / canvas.scale);
+            if (this.offset !== undefined) {
+                w = Math.ceil(w / canvas.scale);
+                h = Math.ceil(h / canvas.scale);
+                const areaX = this.x + this.offset;
+                const areaY = this.y + this.offset;
+                const areaMaxX = this.x + w - this.offset;
+                const areaMaxY = this.y + h - this.offset;
+                if (this.trackInstance.x < areaX) {
+                    this.x -= areaX - this.trackInstance.x;
+                }
+                else if (this.trackInstance.x > areaMaxX) {
+                    this.x += this.trackInstance.x - areaMaxX;
+                }
+                if (this.trackInstance.y < areaY) {
+                    this.y -= areaY - this.trackInstance.y;
+                }
+                else if (this.trackInstance.y > areaMaxY) {
+                    this.y += this.trackInstance.y - areaMaxY;
+                }
+            }
+            else {
+                this.x = this.trackInstance.x - Math.ceil(w / 2 / canvas.scale);
+                this.y = this.trackInstance.y - Math.ceil(h / 2 / canvas.scale);
+            }
         }
         if (this.x < 0) {
             this.x = 0;
@@ -34,8 +56,6 @@ export class Camera {
         if (this.y < 0) {
             this.y = 0;
         }
-        w = Math.ceil(w / canvas.scale);
-        h = Math.ceil(h / canvas.scale);
         if (this.x + w > this.scene.width) {
             this.x = this.scene.width - w;
         }

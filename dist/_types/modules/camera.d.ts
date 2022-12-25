@@ -9,6 +9,7 @@ export declare class Camera {
     y: number;
     trackInstance?: GameObject;
     private scene;
+    offset?: number;
     constructor(scene: Scene, trackInstance?: GameObject);
     update(canvas: Canvas): void;
     setName(name: string): void;
