@@ -23,12 +23,13 @@ class _DefaultScene extends Scene {
     this.mainCamera.setTrackInstance(Player);
     this.background = new AssetPattern(this.getCanvas(), aWall);
     this.setCamera(this.mainCamera);
-    this.getCanvas().scale = 2;
+    this.getCanvas().scale = 1.5;
+    this.mainCamera.offset = 100;
     this.guiLayer = this.createCanvas("gui");
   }
 
   public draw(canvas: Canvas): void {
-    canvas.drawRect(600, 100, 600, 600, {
+    canvas.drawRect(50, 50, 1900, 700, {
       fillStyle: this.background,
       stroked: true,
     });
